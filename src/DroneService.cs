@@ -11,6 +11,10 @@ namespace Drone.Service {
     [ServiceBehavior(InstanceContextMode = InstanceContextMode.Single,
                     ConcurrencyMode = ConcurrencyMode.Single)]
     public class DroneService : IDroneService {
+        public string NotFound(){
+            return "Page not found";
+        }
+
         public bool Status() {
             return true;
         }

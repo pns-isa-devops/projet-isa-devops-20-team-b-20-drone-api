@@ -10,9 +10,11 @@ namespace Drone.Service {
     [ServiceContract]
     public interface IDroneService
     {
+
         [OperationContract]
         [WebInvoke( Method = "GET", UriTemplate = "status",
-                RequestFormat = WebMessageFormat.Json)]
+                RequestFormat = WebMessageFormat.Json,
+                ResponseFormat = WebMessageFormat.Json)]
         bool Status();
 
         [OperationContract]
@@ -20,6 +22,13 @@ namespace Drone.Service {
                 RequestFormat = WebMessageFormat.Json,
                 ResponseFormat = WebMessageFormat.Json)]
         DroneRequest LaunchDrone(DroneRequest request);
+
+        // catch all the other requests
+        [OperationContract]
+        [WebGet(UriTemplate = "*",
+                RequestFormat = WebMessageFormat.Json,
+                ResponseFormat = WebMessageFormat.Json)]
+        string NotFound();
     }
 
 }
