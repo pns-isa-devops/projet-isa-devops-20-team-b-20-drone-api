@@ -6,20 +6,25 @@ using System.Collections.Generic;
 using System.Linq;
 using Drone.Data;
 
-namespace Drone.Service {
+namespace Drone.Service
+{
 
     [ServiceBehavior(InstanceContextMode = InstanceContextMode.Single,
                     ConcurrencyMode = ConcurrencyMode.Single)]
-    public class DroneService : IDroneService {
-        public string NotFound(){
+    public class DroneService : IDroneService
+    {
+        public string NotFound()
+        {
             return "Page not found";
         }
 
-        public bool Status() {
+        public bool Status()
+        {
             return true;
         }
 
-        public DroneRequest LaunchDrone(DroneRequest request) {
+        public DroneRequest LaunchDrone(DroneRequest request)
+        {
             Console.WriteLine("ReceiveRequest: " + request);
             return request;
         }

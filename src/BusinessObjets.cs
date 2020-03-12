@@ -1,20 +1,21 @@
 using System.Runtime.Serialization;
 using System;
 
-namespace Drone.Data {
-  [DataContract(Namespace = "http://drone/external/request/data/",
-                Name = "DroneRequest")]
-  public class DroneRequest
-  {
-    [DataMember]
-    public string id { get; set; }
-
-    [DataMember]
-    public string status { get; set; }
-
-    override public string ToString()
+namespace Drone.Data
+{
+    [DataContract(Namespace = "http://drone/external/request/data/",
+                  Name = "DroneRequest")]
+    public class DroneRequest
     {
-      return "DroneRequest[" + id + ", " + status + "]";
+        [DataMember]
+        public string id { get; set; }
+
+        [DataMember]
+        public string status { get; set; }
+
+        override public string ToString()
+        {
+            return "DroneRequest[" + id + ", " + status + "]";
+        }
     }
-  }
 }
