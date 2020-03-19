@@ -25,7 +25,7 @@ namespace Drone.Service
 
         public DroneRequest LaunchDrone(DroneRequest request)
         {
-            Console.WriteLine("ReceiveRequest: " + request);
+            Console.WriteLine("ReceivedRequest: " + request);
             return request;
         }
     }

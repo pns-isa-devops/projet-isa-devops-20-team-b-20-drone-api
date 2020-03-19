@@ -11,11 +11,11 @@ namespace Drone.Data
         public string id { get; set; }
 
         [DataMember]
-        public string status { get; set; }
+        public string hour { get; set; }
 
         override public string ToString()
         {
-            return "DroneRequest[" + id + ", " + status + "]";
+            return "DroneRequest[ Drone " + id + " will be launched at " + hour + " ]";
         }
     }
 }
