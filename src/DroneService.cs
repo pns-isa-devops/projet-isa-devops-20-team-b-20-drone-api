@@ -51,9 +51,9 @@ namespace Drone.Service
                 d.id = request.id;
                 drones.Add(request.id, d);
             }
-            else if (drones[request.id].status == "in delivery")
+            else if (drones[request.id].status == "ON_DELIVERY")
             {
-                Console.WriteLine("ReceivedRequest: Drone " + request.id + " already in delivery");
+                Console.WriteLine("ReceivedRequest: Drone " + request.id + " already on delivery");
                 WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.NotFound;
                 return null;
             }
@@ -61,7 +61,7 @@ namespace Drone.Service
             {
                 d = drones[request.id];
             }
-            d.status = "in delivery";
+            d.status = "ON_DELIVERY";
             d.remainingTime = deliveryTime;
             Console.WriteLine("ReceivedRequest: " + d);
             return d;
@@ -75,7 +75,7 @@ namespace Drone.Service
                 d.remainingTime -= 1;
                 if (d.remainingTime == 0)
                 {
-                    d.status = "has returned";
+                    d.status = "BACK_FROM_DELIVERY";
                     Console.WriteLine(e.SignalTime);
                     Console.WriteLine(d);
                 }
