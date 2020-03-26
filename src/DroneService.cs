@@ -1,9 +1,11 @@
 using System;
 using System.Net;
 using System.ServiceModel;
+using System.Globalization;
 using System.ServiceModel.Web;
 using System.Collections.Generic;
 using System.Linq;
+using System.Timers;
 using Drone.Data;
 
 namespace Drone.Service
@@ -13,20 +15,71 @@ namespace Drone.Service
                     ConcurrencyMode = ConcurrencyMode.Single)]
     public class DroneService : IDroneService
     {
+
+        private static Timer timer = new Timer();
+        private static int deliveryTime = 10; //s
+        private Dictionary<string, DroneStatus> drones = new Dictionary<string, DroneStatus>();
+
+        public DroneService()
+        {
+            Console.WriteLine("Start drone service");
+            timer.Interval = 1000;
+            timer.Elapsed += OnTimedEvent;
+            timer.Enabled = true;
+        }
         public string NotFound()
         {
             return "Page not found";
         }
 
-        public bool Status()
+        public DroneStatus getDroneStatus(string identifier)
         {
-            return true;
+            if (!drones.ContainsKey(identifier))
+            {
+                WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.NotFound;
+                return null;
+            }
+            return drones[identifier];
         }
 
-        public DroneRequest LaunchDrone(DroneRequest request)
+        public DroneStatus LaunchDrone(DroneRequest request)
         {
-            Console.WriteLine("ReceivedRequest: " + request);
-            return request;
+            DroneStatus d;
+            if (!drones.ContainsKey(request.id))
+            {
+                d = new DroneStatus();
+                d.id = request.id;
+                drones.Add(request.id, d);
+            }
+            else if (drones[request.id].status == "in delivery")
+            {
+                Console.WriteLine("ReceivedRequest: Drone " + request.id + " already in delivery");
+                WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.NotFound;
+                return null;
+            }
+            else
+            {
+                d = drones[request.id];
+            }
+            d.status = "in delivery";
+            d.remainingTime = deliveryTime;
+            Console.WriteLine("ReceivedRequest: " + d);
+            return d;
+        }
+
+        private void OnTimedEvent(Object source, ElapsedEventArgs e)
+        {
+            // Console.WriteLine(e.SignalTime.Second);
+            foreach (DroneStatus d in drones.Values)
+            {
+                d.remainingTime -= 1;
+                if (d.remainingTime == 0)
+                {
+                    d.status = "has returned";
+                    Console.WriteLine(e.SignalTime);
+                    Console.WriteLine(d);
+                }
+            }
         }
     }
 }

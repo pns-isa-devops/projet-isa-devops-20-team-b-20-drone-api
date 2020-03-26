@@ -13,16 +13,16 @@ namespace Drone.Service
     {
 
         [OperationContract]
-        [WebInvoke(Method = "GET", UriTemplate = "status",
+        [WebInvoke(Method = "GET", UriTemplate = "drone/{id}/status",
                 RequestFormat = WebMessageFormat.Json,
                 ResponseFormat = WebMessageFormat.Json)]
-        bool Status();
+        DroneStatus getDroneStatus(string id);
 
         [OperationContract]
         [WebInvoke(Method = "POST", UriTemplate = "drone/launch",
                 RequestFormat = WebMessageFormat.Json,
                 ResponseFormat = WebMessageFormat.Json)]
-        DroneRequest LaunchDrone(DroneRequest request);
+        DroneStatus LaunchDrone(DroneRequest request);
 
         // catch all the other requests
         [OperationContract]
