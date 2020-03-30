@@ -29,12 +29,15 @@ namespace Drone.Data
         public string status { get; set; }
 
         [DataMember]
+        public string delivery { get; set; }
+
+        [DataMember]
         public int remainingTime { get; set; }
 
 
         override public string ToString()
         {
-            return "DroneStatus[ Drone " + id + " with " + status + " delivery time estimation " + remainingTime + "s ]";
+            return "DroneStatus[ Drone " + id + " with " + status + " delivery time " + remainingTime + "s ]";
         }
     }
 

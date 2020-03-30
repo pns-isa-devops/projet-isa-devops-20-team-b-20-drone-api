@@ -19,6 +19,7 @@ namespace Drone.Service
         private static Timer timer = new Timer();
         private static int deliveryTime = 10; //s
         private Dictionary<string, DroneStatus> drones = new Dictionary<string, DroneStatus>();
+        Random rnd = new Random();
 
         public DroneService()
         {
@@ -61,6 +62,7 @@ namespace Drone.Service
             {
                 d = drones[request.id];
             }
+            d.delivery = "ONGOING";
             d.status = "ON_DELIVERY";
             d.remainingTime = deliveryTime;
             Console.WriteLine("ReceivedRequest: " + d);
@@ -76,6 +78,7 @@ namespace Drone.Service
                 if (d.remainingTime == 0)
                 {
                     d.status = "BACK_FROM_DELIVERY";
+                    d.delivery = rnd.Next(10) == 0 ? "FAILED" : "DELIVERED";
                     Console.WriteLine(e.SignalTime);
                     Console.WriteLine(d);
                 }
