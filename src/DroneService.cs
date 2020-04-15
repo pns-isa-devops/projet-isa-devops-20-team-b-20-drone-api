@@ -6,6 +6,7 @@ using System.ServiceModel.Web;
 using System.Collections.Generic;
 using System.Linq;
 using System.Timers;
+using Newtonsoft.Json;
 using Drone.Data;
 
 namespace Drone.Service
@@ -20,6 +21,7 @@ namespace Drone.Service
         private static int deliveryTime = 10; //s
         private Dictionary<string, DroneStatus> drones = new Dictionary<string, DroneStatus>();
         Random rnd = new Random();
+        private List<Address> addresses = new List<Address>();
 
         public DroneService()
         {
@@ -27,6 +29,11 @@ namespace Drone.Service
             timer.Interval = 1000;
             timer.Elapsed += OnTimedEvent;
             timer.Enabled = true;
+
+            //MOCK some addresses
+            addresses.Add(new Address("5 rue Vert", 5));
+            addresses.Add(new Address("900 rue Orange", 900));
+            addresses.Add(new Address("1800 rue Rouge", 1800));
         }
         public string NotFound()
         {
@@ -62,6 +69,15 @@ namespace Drone.Service
             {
                 d = drones[request.id];
             }
+
+            //compare addresses from mock to find round-trip time
+            foreach(Address a in addresses){
+                if(a.location.Equals(request.destination)){
+                    deliveryTime = a.roundTripTime;
+                    break;
+                }
+            }
+
             d.delivery = "ONGOING";
             d.status = "ON_DELIVERY";
             d.remainingTime = deliveryTime;
