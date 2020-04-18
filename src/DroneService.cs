@@ -6,7 +6,6 @@ using System.ServiceModel.Web;
 using System.Collections.Generic;
 using System.Linq;
 using System.Timers;
-using Newtonsoft.Json;
 using Drone.Data;
 
 namespace Drone.Service
@@ -71,8 +70,10 @@ namespace Drone.Service
             }
 
             //compare addresses from mock to find round-trip time
-            foreach(Address a in addresses){
-                if(a.location.Equals(request.destination)){
+            foreach (Address a in addresses)
+            {
+                if (a.location.Equals(request.destination))
+                {
                     deliveryTime = a.roundTripTime;
                     break;
                 }
