@@ -30,7 +30,7 @@ namespace Drone.Service
             timer.Enabled = true;
 
             //MOCK some addresses
-            addresses.Add(new Address("Instant travel", 0)); // instant travel
+            addresses.Add(new Address("Instant travel", 1)); // instant travel
             addresses.Add(new Address("5 rue Vert", 5));
             addresses.Add(new Address("10 rue Orange", 10));
             addresses.Add(new Address("900 rue Rouge", 900)); //15 min
