@@ -95,7 +95,7 @@ namespace Drone.Service
                 d.remainingTime -= 1;
                 if (d.remainingTime == 0)
                 {
-                    d.status = "BACK_FROM_DELIVERY";
+                    d.status = "AVAILABLE";
                     d.delivery = rnd.Next(10) == 0 ? "FAILED" : "DELIVERED";
                     Console.WriteLine(e.SignalTime);
                     Console.WriteLine(d);
